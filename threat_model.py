@@ -4,7 +4,7 @@ from textual.widgets import Collapsible, Label
 
 class ThreatModel(App):
     """Textual threat model app."""
-    CSS_PATH = "threat-model.tcss"
+    CSS_PATH = "threat_model.tcss"
     def compose(self) -> ComposeResult:
         """Compose our UI."""
         with Collapsible():
