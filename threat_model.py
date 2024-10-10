@@ -1,3 +1,4 @@
+"""Application providing functionality for OTM files"""
 from textual.app import App, ComposeResult
 from textual.widgets import Collapsible, Label
 
