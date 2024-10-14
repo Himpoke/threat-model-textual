@@ -1,9 +1,17 @@
 """Application providing functionality for OTM files"""
+from textual import on
 from textual.app import App, ComposeResult
-from textual.widgets import Header, Static, TabbedContent, TabPane
+from textual.widgets import Header, Static, TabbedContent, TabPane, Input
+from textual.containers import VerticalScroll
 from schema_fetcher import read_otm
 import json
 import jsonschema
+
+class Project(VerticalScroll):
+    """ project data """
+    def compose(self) -> ComposeResult:
+        yield Input("Name", id="project_name")
+        yield Static("project data")
 
 class ThreatModel(App):
     """Textual threat model app."""
@@ -13,14 +21,9 @@ class ThreatModel(App):
         yield Header()
         self.title = "Open Threat Model Editor"
 
-        with TabbedContent(initial="project"):
+        with TabbedContent(id="project_viewer", initial="project"):
             with TabPane("Project", id="project"):
-                yield Static("M: id, name")
-                yield Static("id, name, description, owner, ownerContact, tags, attributes")
-                yield Static("")
-                yield Static("Represenations: list")
-                yield Static("id, name, description, type, size, repository")
-                yield Static("repository: url")
+                yield Project()
             with TabPane("Assets", id="assets"):
                 yield Static("id, name, description, risk")
                 yield Static("risk: confidentiality, integrity, availability, comment")
@@ -30,6 +33,11 @@ class ThreatModel(App):
                 yield Static("id, name, description, type, parent, representations, assets, threats, tags, attributes")
             with TabPane("DataFlows", id="dataflows"):
                 yield Static("id, name, description, bidirectional, source, destination, assets, threats, tags, attributes")
+
+    @on(TabbedContent.TabActivated, "#project_viewer")
+    def on_tabs_tab_activated(self, event: TabbedContent.TabActivated) -> None:
+        """ event handler? """
+        print("I know this works, just not why it doesn't print")
 
 def read_example():
     with open("example.json",'r') as file:
@@ -46,9 +54,8 @@ def validate_input(json_data, json_schema):
 if __name__ == "__main__":
     ThreatModel().run()
     schema = read_otm()
-    print(str(schema))
     example = read_example()
     if not validate_input(example,schema):
         print("oh no")
     else:
-        print(example)
+        print("fetched data")
