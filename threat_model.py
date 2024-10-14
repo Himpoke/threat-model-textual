@@ -1,6 +1,9 @@
 """Application providing functionality for OTM files"""
 from textual.app import App, ComposeResult
 from textual.widgets import Header, Static, TabbedContent, TabPane
+from schema_fetcher import read_otm
+import json
+import jsonschema
 
 class ThreatModel(App):
     """Textual threat model app."""
@@ -28,5 +31,24 @@ class ThreatModel(App):
             with TabPane("DataFlows", id="dataflows"):
                 yield Static("id, name, description, bidirectional, source, destination, assets, threats, tags, attributes")
 
+def read_example():
+    with open("example.json",'r') as file:
+        content = file.read()
+        return json.loads(content)
+
+def validate_input(json_data, json_schema):
+    try:
+        jsonschema.validate(instance=json_data, schema=json_schema)
+        return True
+    except jsonschema.exceptions.ValidationError:
+        return False
+
 if __name__ == "__main__":
     ThreatModel().run()
+    schema = read_otm()
+    print(str(schema))
+    example = read_example()
+    if not validate_input(example,schema):
+        print("oh no")
+    else:
+        print(example)
