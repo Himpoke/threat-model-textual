@@ -1,3 +1,4 @@
 textual
 requests
 jsonschema
+pydantic

@@ -3,34 +3,15 @@ import json
 import jsonschema
 from textual import on
 from textual.app import App, ComposeResult
-from textual.widgets import Header, Static, TabbedContent, TabPane, Input
-from textual.containers import Vertical
+from textual.widgets import Static, Header, TabbedContent, TabPane
 from schema_fetcher import read_otm
+from classes.project import Project
 
 content = {}
-
-class Project(Vertical):
-  """ project data """
-  def compose(self) -> ComposeResult:
-    yield Static("Name")
-    yield Input("", id="project_name")
-    yield Static("Description")
-    yield Input("", id="project_description")
-    yield Static("Owner")
-    yield Input("", id="project_owner")
-    yield Static("Owner Contact")
-    yield Input("", id="project_owner_contact")
-
-  def load_content(self, content) -> None:
-    self.query_one("#project_name",Input).value = content['name']
-    self.query_one("#project_description",Input).value = content['description']
 
 class ThreatModel(App):
   """Textual threat model app."""
   CSS_PATH = "threat_model.tcss"
-
-  # def __init__(self, content):
-    # self.content = content
 
   def compose(self) -> ComposeResult:
     """Compose our UI."""
@@ -49,8 +30,8 @@ class ThreatModel(App):
         yield Static("id, name, type, description, risk, parent, representation, attributes")
       with TabPane("Components", id="components"):
         yield Static("id, name, description, type, parent, representations, assets, threats, tags, attributes")
-        with TabPane("DataFlows", id="dataflows"):
-          yield Static("id, name, description, bidirectional, source, destination, assets, threats, tags, attributes")
+      with TabPane("DataFlows", id="dataflows"):
+        yield Static("id, name, description, bidirectional, source, destination, assets, threats, tags, attributes")
 
   @on(TabbedContent.TabActivated, "#project_viewer")
   def on_tabs_tab_activated(self, event: TabbedContent.TabActivated) -> None:

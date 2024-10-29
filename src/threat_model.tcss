@@ -1,0 +1,11 @@
+ListView {
+  height: auto;
+}
+ListView
+Horizontal {
+  height: auto;
+}
+
+Horizontal Static {
+  max-width: 15;
+}
