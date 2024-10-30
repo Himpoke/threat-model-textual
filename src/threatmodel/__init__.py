@@ -2,7 +2,11 @@
 from .project import Project
 from .threatmodel import ThreatModel
 from .schema_fetcher import SchemaFetcher
+from .taglist import TagList
+from .attributelist import AttributeList
 
 __all__ = ["Project",
            "ThreatModel",
-           "SchemaFetcher"]
+           "SchemaFetcher",
+           "TagList",
+           "AttributeList"]
