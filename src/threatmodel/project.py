@@ -4,7 +4,6 @@ from textual.containers import Horizontal, VerticalScroll
 from textual.widgets import Input, DataTable, Static
 from textual.widget import Widget
 
-
 class Project(VerticalScroll):
     """project data"""
     
