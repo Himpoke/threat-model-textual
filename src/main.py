@@ -7,7 +7,6 @@ def read_example():
     """Read example.json file"""
     with open(os.path.join(os.getcwd(),"example.json"), "r", encoding="utf-8") as file:
         file_content = file.read()
-        print(file_content)
         return json.loads(file_content)
 
 
