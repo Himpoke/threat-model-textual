@@ -2,7 +2,6 @@
 from textual.app import ComposeResult
 from textual.containers import Horizontal, VerticalScroll
 from textual.widgets import Input, DataTable, Static
-from textual.widget import Widget
 
 class Project(VerticalScroll):
     """project data"""
@@ -21,6 +20,7 @@ class Project(VerticalScroll):
         self.project_id = content['id']
 
     def compose(self) -> ComposeResult:
+        """Build controls"""
         yield Horizontal(Static("Name"), Input("", id="project_name"))
         yield Horizontal(Static("Description"), Input("", id="project_description"))
         yield Horizontal(Static("Owner"), Input("", id="project_owner"))
