@@ -1,7 +1,10 @@
 """Controls and logic to display and save project data"""
 from textual.app import ComposeResult
 from textual.containers import Horizontal, VerticalScroll
-from textual.widgets import Input, DataTable, Static
+from textual.widgets import Input, Static
+from threatmodel.taglist import TagList
+from threatmodel.attributelist import AttributeList
+
 
 class Project(VerticalScroll):
     """project data"""
@@ -25,11 +28,20 @@ class Project(VerticalScroll):
         yield Horizontal(Static("Description"), Input("", id="project_description"))
         yield Horizontal(Static("Owner"), Input("", id="project_owner"))
         yield Horizontal(Static("Owner Contact"), Input("", id="project_owner_contact"))
+        tags: list[str] = []
+        if "tags" in self.content:
+            tags = self.content["tags"]
+        attrs: dict = {}
+        if "attributes" in self.content:
+            attrs = self.content["attributes"]
+
         yield Horizontal(
             Static("Tags"),
-            DataTable(id="project_tags"),
+            TagList(id="project_tag",content=tags),
+        )
+        yield Horizontal(
             Static("Attributes"),
-            DataTable(id="project_attributes"),
+            AttributeList(id="project_attr",content=attrs),
         )
 
     def on_mount(self) -> None:
@@ -38,13 +50,3 @@ class Project(VerticalScroll):
         self.query_one("#project_description", Input).value = self.content["description"]
         self.query_one("#project_owner", Input).value = self.content["owner"]
         self.query_one("#project_owner_contact", Input).value = self.content["ownerContact"]
-        tag_table = self.query_one("#project_tags", DataTable)
-        tag_table.add_columns("tag")
-        if "tags" in self.content:
-            for tag in self.content["tags"]:
-                tag_table.add_row(tag)
-        attr_table = self.query_one("#project_attributes", DataTable)
-        attr_table.add_columns("key", "value")
-        if "attributes" in self.content:
-            for attr in self.content["attributes"]:
-                attr_table.add_row(attr, self.content["attributes"][attr])
