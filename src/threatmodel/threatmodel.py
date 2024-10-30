@@ -1,11 +1,7 @@
 """Application providing functionality for OTM files"""
-
-
 from textual.app import App, ComposeResult
 from textual.widgets import Static, Header, TabbedContent, TabPane
 from threatmodel import Project
-
-content = {}
 
 class ThreatModel(App):
     """Textual threat model app."""
@@ -26,7 +22,7 @@ class ThreatModel(App):
 
         with self.tabbedcontent:
             with TabPane("Project", id="project"):
-                yield Project(id="project",content=self.content["id"])
+                yield Project(id="project",content=self.content["project"])
             with TabPane("Assets", id="assets"):
                 yield Static("id, name, description, risk")
                 yield Static("risk: confidentiality, integrity, availability, comment")
