@@ -9,14 +9,16 @@ class Project(VerticalScroll):
     
     def __init__(
         self,
-        *children: Widget,
+        *,
         name: str | None = None,
         id: str | None = None,
         classes: str | None = None,
         disabled: bool = False,
+        content: dict
     ):
-        super().__init__(*children, name=name, id=id, classes=classes, disabled=disabled)
-        self.project_id = None
+        super().__init__(name=name, id=id, classes=classes, disabled=disabled)
+        self.content = content
+        self.project_id = content['id']
 
     def compose(self) -> ComposeResult:
         yield Horizontal(Static("Name"), Input("", id="project_name"))
@@ -30,20 +32,19 @@ class Project(VerticalScroll):
             DataTable(id="project_attributes"),
         )
 
-    def load_content(self, content) -> None:
-        """Display passed data to the window"""
-        self.project_id = content["id"]
-        self.query_one("#project_name", Input).value = content["name"]
-        self.query_one("#project_description", Input).value = content["description"]
-        self.query_one("#project_owner", Input).value = content["owner"]
-        self.query_one("#project_owner_contact", Input).value = content["ownerContact"]
+    def on_mount(self) -> None:
+        """Display passed data"""
+        self.query_one("#project_name", Input).value = self.content["name"]
+        self.query_one("#project_description", Input).value = self.content["description"]
+        self.query_one("#project_owner", Input).value = self.content["owner"]
+        self.query_one("#project_owner_contact", Input).value = self.content["ownerContact"]
         tag_table = self.query_one("#project_tags", DataTable)
         tag_table.add_columns("tag")
-        if "tags" in content:
-            for tag in content["tags"]:
+        if "tags" in self.content:
+            for tag in self.content["tags"]:
                 tag_table.add_row(tag)
         attr_table = self.query_one("#project_attributes", DataTable)
         attr_table.add_columns("key", "value")
-        if "attributes" in content:
-            for attr in content["attributes"]:
-                attr_table.add_row(attr, content["attributes"][attr])
+        if "attributes" in self.content:
+            for attr in self.content["attributes"]:
+                attr_table.add_row(attr, self.content["attributes"][attr])

@@ -26,7 +26,7 @@ class ThreatModel(App):
 
         with self.tabbedcontent:
             with TabPane("Project", id="project"):
-                yield Project(id="project")
+                yield Project(id="project",content=self.content["id"])
             with TabPane("Assets", id="assets"):
                 yield Static("id, name, description, risk")
                 yield Static("risk: confidentiality, integrity, availability, comment")
@@ -36,13 +36,11 @@ class ThreatModel(App):
                 )
             with TabPane("Components", id="components"):
                 yield Static(
-                    "id, name, description, type, parent, representations, assets, threats, tags, attributes"
+                    "id, name, description, type, parent, representations, assets,"+
+                        "threats, tags, attributes"
                 )
             with TabPane("DataFlows", id="dataflows"):
                 yield Static(
-                    "id, name, description, bidirectional, source, destination, assets, threats, tags, attributes"
+                    "id, name, description, bidirectional, source, "+
+                        "destination, assets, threats, tags, attributes"
                 )
-
-    def on_mount(self):
-        """ran after everything is rendered"""
-        self.query_one("#project", Project).load_content(self.content["project"])
