@@ -36,12 +36,14 @@ class Project(VerticalScroll):
             attrs = self.content["attributes"]
 
         yield Horizontal(
-            Static("Tags"),
-            TagList(id="project_tag",content=tags),
-        )
-        yield Horizontal(
-            Static("Attributes"),
-            AttributeList(id="project_attr",content=attrs),
+                Horizontal(
+                        Static("Tags"),
+                        TagList(id="project_tag",content=tags),
+                ),
+                Horizontal(
+                        Static("Attributes"),
+                        AttributeList(id="project_attr",content=attrs),
+                )
         )
 
     def on_mount(self) -> None:
