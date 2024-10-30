@@ -9,3 +9,8 @@ Horizontal {
 Horizontal Static {
   max-width: 15;
 }
+
+Horizontal DataTable {
+  min-width: 20;
+  width: auto;
+}
