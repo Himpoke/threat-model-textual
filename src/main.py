@@ -21,11 +21,11 @@ def validate_input(json_data, json_schema):
 
 
 if __name__ == "__main__":
+    """main method: read input and start app"""
     schema_fetcher = SchemaFetcher()
     schema = schema_fetcher.read_otm()
     example = read_example()
     if not validate_input(example, schema):
-        print("oh no")
         exit(-1)
     app = ThreatModel(example)
     app.run()
