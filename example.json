@@ -8,7 +8,8 @@
     "ownerContact": "john.doe@example.com",
     "attributes": {
             "cmdbId": "MyApp123"
-          }
+          },
+    "tags":["tag1","tag2"]
         },
   "representations": [
         {
